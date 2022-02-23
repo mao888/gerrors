@@ -17,6 +17,11 @@ func TestNew(t *testing.T) {
 	//fmt.Println(fmt.Sprintf("%+v \n", err))
 	//fmt.Printf("%#+v\n", err)
 	fmt.Printf("%s\n", err)
+	// 打印结果为
+	//#0 exec2 wrap D:/fotoable/open/gerrors/errors_test.go:36
+	//#1 exec1 wrap D:/fotoable/open/gerrors/errors_test.go:43
+	//#2 exec0 wrap D:/fotoable/open/gerrors/errors_test.go:50
+	//#e open 1: The system cannot find the file specified.
 
 	//glog.Error(context.TODO(), err)
 	fmt.Printf("----------------------------------------------------------- \n")
