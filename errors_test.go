@@ -13,13 +13,16 @@ func TestNew(t *testing.T) {
 	//err1 = Wrap(err1, "exec1 wrap")/
 	//fmt.Printf("%s\n", wrap2().Error())
 	//fmt.Printf("%#+v\n", err1)
-	err := wrap2().Error()
+	err := wrap2()
 	//fmt.Println(fmt.Sprintf("%+v \n", err))
 	//fmt.Printf("%#+v\n", err)
 	fmt.Printf("%s\n", err)
+
 	//glog.Error(context.TODO(), err)
 	fmt.Printf("----------------------------------------------------------- \n")
 	//glog.Errorf(context.TODO(), "%s\n", err)
+
+	fmt.Println(Err(err))
 
 }
 

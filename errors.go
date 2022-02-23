@@ -19,10 +19,10 @@ func (e *BaseError) listMsg(sept int) string {
 	var msg = e.Msg
 	frame := e.stackTrace()[0]
 	if temp, ok := e.Err.(*BaseError); ok {
-		msg = fmt.Sprintf("\n\t #%d %s %s:%d %s ", sept, msg, frame.file(), frame.line(), temp.listMsg(sept+1))
+		msg = fmt.Sprintf("\n #%d %s %s %s ", sept, msg, frame, temp.listMsg(sept+1))
 	} else {
-		msg = fmt.Sprintf("\n\t #%d %s %s:%d \n\t #err %s ",
-			sept, msg, frame.file(), frame.line(), fmt.Sprintf("%s", e.Err.Error()))
+		msg = fmt.Sprintf("\n #%d %s %s \n #e %s ",
+			sept, msg, frame, fmt.Sprintf("%s", e.Err.Error()))
 	}
 	return msg
 }
