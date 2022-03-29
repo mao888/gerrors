@@ -36,7 +36,7 @@ func New(code int, msg, format string, args ...interface{}) error {
 	}
 }
 
-func Wrap(err error, msg string) *BaseError {
+func Wrap(err error, msg string) error {
 	if err == nil {
 		return nil
 	}
