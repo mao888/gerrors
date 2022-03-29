@@ -64,6 +64,17 @@ func WrapCode(err error, code int, msg string) error {
 	}
 }
 
+func Resp(e error) (int, string) {
+	if temp, ok := e.(*BaseError); ok {
+		if temp.Code != 0 && temp.Msg != "" {
+			return temp.Code, temp.Msg
+		} else {
+			return Resp(temp.Err)
+		}
+	}
+	return 0, ""
+}
+
 func Err(e error) error {
 	if temp, ok := e.(*BaseError); ok {
 		return Err(temp.Err)
