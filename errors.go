@@ -76,6 +76,9 @@ func Resp(e error) (int, string) {
 }
 
 func Err(e error) error {
+	if e == nil {
+		return nil
+	}
 	if temp, ok := e.(*BaseError); ok {
 		return Err(temp.Err)
 	}
