@@ -28,12 +28,14 @@ func TestNew(t *testing.T) {
 	//glog.Errorf(context.TODO(), "%s\n", err)
 
 	fmt.Println(Err(err))
+	fmt.Printf("----------------------------------------------------------- \n")
+	fmt.Println(Resp(err))
 
 }
 
 func wrap2() error {
 	if err := wrap1(); err != nil {
-		return Wrap(err, "exec2 wrap")
+		return WrapCode(err, 1004, "exec2 wrap")
 	}
 	return nil
 }
@@ -47,7 +49,7 @@ func wrap1() error {
 
 func wrap0() error {
 	if err := openfile(); err != nil {
-		return Wrap(err, "exec0 wrap")
+		return WrapCode(err, 1002, "exec0 wrap")
 	}
 	return nil
 }

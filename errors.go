@@ -27,11 +27,11 @@ func (e *BaseError) listMsg(sept int) string {
 	return msg
 }
 
-func New(code int, msg, format string, args ...interface{}) error {
+func New(code int, msg string) error {
 	return &BaseError{
 		Code:  code,
 		Msg:   msg,
-		Err:   fmt.Errorf(format, args...),
+		Err:   nil,
 		stack: callers(),
 	}
 }
@@ -65,14 +65,33 @@ func WrapCode(err error, code int, msg string) error {
 }
 
 func Resp(e error) (int, string) {
-	if temp, ok := e.(*BaseError); ok {
-		if temp.Code != 0 && temp.Msg != "" {
-			return temp.Code, temp.Msg
-		} else {
-			return Resp(temp.Err)
+	temps := make([]*BaseError, 0)
+	for {
+		temp, ok := e.(*BaseError)
+		if !ok {
+			break
 		}
+		if temp.Code == 0 || temp.Msg == "" {
+			continue
+		}
+		temps = append(temps, temp)
+		if temp.Err == nil {
+			break
+		}
+		e = temp.Err
+	}
+	if len(temps) > 0 {
+		return temps[len(temps)-1].Code, temps[len(temps)-1].Msg
 	}
 	return 0, ""
+	//if temp, ok := e.(*BaseError); ok {
+	//	if temp.Code != 0 && temp.Msg != "" {
+	//		return temp.Code, temp.Msg
+	//	} else {
+	//		return Resp(temp.Err)
+	//	}
+	//}
+	//return 0, ""
 }
 
 func Err(e error) error {
