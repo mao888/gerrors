@@ -21,8 +21,12 @@ func (e *BaseError) listMsg(sept int) string {
 	if temp, ok := e.Err.(*BaseError); ok {
 		msg = fmt.Sprintf("\n #%d %s %s %s ", sept, msg, frame, temp.listMsg(sept+1))
 	} else {
+		errMsg := "nil"
+		if e.Err != nil {
+			errMsg = e.Err.Error()
+		}
 		msg = fmt.Sprintf("\n #%d %s %s \n #e %s ",
-			sept, msg, frame, fmt.Sprintf("%s", e.Err.Error()))
+			sept, msg, frame, errMsg)
 	}
 	return msg
 }
