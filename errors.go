@@ -14,9 +14,19 @@ type BaseError struct {
 func (e *BaseError) Error() string { return e.listMsg(0) }
 func (e *BaseError) Unwrap() error { return e.Err }
 func (e *BaseError) Cause() error  { return e.Err }
-
+func (e *BaseError) clone() *BaseError {
+	return &BaseError{
+		Code:  e.Code,
+		Msg:   e.Msg,
+		Err:   e.Err,
+		stack: e.stack,
+	}
+}
 func (e *BaseError) listMsg(sept int) string {
 	var msg = e.Msg
+	if e.stack == nil {
+		return msg
+	}
 	frame := e.stackTrace()[0]
 	if temp, ok := e.Err.(*BaseError); ok {
 		msg = fmt.Sprintf("\n #%d %s %s %s ", sept, msg, frame, temp.listMsg(sept+1))
@@ -38,6 +48,25 @@ func New(code int, msg string) error {
 		Err:   nil,
 		stack: callers(),
 	}
+}
+
+func NewCodeMsg(code int, msg string) error {
+	return &BaseError{
+		Code:  code,
+		Msg:   msg,
+		Err:   nil,
+		stack: nil,
+	}
+}
+
+func AddStack(e error) error {
+	err, ok := e.(*BaseError)
+	if !ok || err.stack != nil {
+		return err
+	}
+	stackErr := err.clone()
+	stackErr.stack = callers()
+	return stackErr
 }
 
 func Wrap(err error, msg string) error {
@@ -88,14 +117,6 @@ func Resp(e error) (int, string) {
 		return temps[len(temps)-1].Code, temps[len(temps)-1].Msg
 	}
 	return 0, ""
-	//if temp, ok := e.(*BaseError); ok {
-	//	if temp.Code != 0 && temp.Msg != "" {
-	//		return temp.Code, temp.Msg
-	//	} else {
-	//		return Resp(temp.Err)
-	//	}
-	//}
-	//return 0, ""
 }
 
 func Err(e error) error {
