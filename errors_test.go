@@ -6,6 +6,11 @@ import (
 	"testing"
 )
 
+var (
+	orderNotFind = NewCodeMsg(10000, "order not find")
+	userNotFind  = New(10001, "user not find")
+)
+
 func TestNew(t *testing.T) {
 
 	//fmt.Printf("%+v\n", err1)
@@ -30,7 +35,6 @@ func TestNew(t *testing.T) {
 	fmt.Println(Err(err))
 	fmt.Printf("----------------------------------------------------------- \n")
 	fmt.Println(Resp(err))
-
 }
 
 func wrap2() error {
@@ -48,16 +52,21 @@ func wrap1() error {
 }
 
 func wrap0() error {
-	if err := openfile(); err != nil {
+	if err := openFile(); err != nil {
 		return WrapCode(err, 1002, "exec0 wrap")
 	}
 	return nil
 }
 
-func openfile() error {
+func openFile() error {
 	if _, err := os.Open("1"); err != nil {
 		//glog.Error(context.TODO(), err)
 		return err
 	}
 	return nil
+}
+
+func TestAddStack(t *testing.T) {
+	fmt.Println(AddStack(orderNotFind))
+	fmt.Println(userNotFind)
 }
