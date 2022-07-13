@@ -8,8 +8,11 @@ import (
 
 var (
 	orderNotFind = NewCodeMsg(10000, "order not find")
-	userNotFind  = New(10001, "user not find")
 )
+
+func TestAddStack(t *testing.T) {
+	fmt.Println(AddStack(orderNotFind))
+}
 
 func TestNew(t *testing.T) {
 
@@ -64,9 +67,4 @@ func openFile() error {
 		return err
 	}
 	return nil
-}
-
-func TestAddStack(t *testing.T) {
-	fmt.Println(AddStack(orderNotFind))
-	fmt.Println(userNotFind)
 }
