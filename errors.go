@@ -105,6 +105,7 @@ func Resp(e error) (int, string) {
 			break
 		}
 		if temp.Code == 0 || temp.Msg == "" {
+			e = temp.Err
 			continue
 		}
 		temps = append(temps, temp)
