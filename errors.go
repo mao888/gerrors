@@ -41,15 +41,17 @@ func (e *BaseError) listMsg(sept int) string {
 	return msg
 }
 
+//New 创建一个业务异常
 func New(code int, msg string) error {
 	return &BaseError{
 		Code:  code,
 		Msg:   msg,
 		Err:   nil,
-		stack: callers(),
+		stack: nil,
 	}
 }
 
+//Deprecated
 func NewCodeMsg(code int, msg string) error {
 	return &BaseError{
 		Code:  code,
@@ -59,6 +61,7 @@ func NewCodeMsg(code int, msg string) error {
 	}
 }
 
+//Deprecated
 func AddStack(e error) error {
 	err, ok := e.(*BaseError)
 	if !ok || err.stack != nil {
@@ -88,6 +91,7 @@ func Wrap(err error, msg string) error {
 	}
 }
 
+//Deprecated
 func WrapCode(err error, code int, msg string) error {
 	return &BaseError{
 		Code:  code,

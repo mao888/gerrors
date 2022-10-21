@@ -16,6 +16,11 @@ func TestAddStack(t *testing.T) {
 
 func TestNew(t *testing.T) {
 
+	err2 := New(1000, "业务错误")
+	err22 := Wrap(err2, "包装错误")
+	fmt.Println(err22, Err(err22))
+	fmt.Println(Resp(err22))
+
 	//fmt.Printf("%+v\n", err1)
 	//err1 = Wrap(err1, "exec0 wrap")
 	//err1 = Wrap(err1, "exec1 wrap")/
@@ -56,7 +61,7 @@ func wrap1() error {
 
 func wrap0() error {
 	if err := openFile(); err != nil {
-		return WrapCode(err, 1002, "exec0 wrap")
+		return New(1002, "exec0 wrap")
 	}
 	return nil
 }
